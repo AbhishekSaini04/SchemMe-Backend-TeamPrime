@@ -37,7 +37,7 @@ const getSchemesByCategory = async (category: string, res: Response) => {
       where: {
         schemeCategory: category,
       },
-      take: 100, // limit for performance
+      take: 5000, // limit for performance
     });
 
     const count = await prisma.scheme.count({
@@ -173,6 +173,7 @@ router.get("/utility", async (req: Request, res: Response) => {
 router.get("/women", async (req: Request, res: Response) => {
   await getSchemesByCategory(categories.women, res);
 });
+
 
 // ==========================
 // EXPORT

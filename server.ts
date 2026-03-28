@@ -10,7 +10,7 @@ import csv from "csv-parser";
 import schemeSearchRoute from "./routes/schemeSearch.route.js";
 import { chatBOT } from "./controllers/chatBOT.controller.js";
 import { PrismaClient } from "@prisma/client";
-
+import { login, register , verifyOTP} from "./controllers/auth.controller.js";
 // ==========================
 // INIT
 // ==========================
@@ -117,30 +117,42 @@ app.get("/import-schemes", async (req, res) => {
 
 app.use("/api/schemes", schemeSearchRoute);
 
+// import { chatWithNvidia } from "./controllers/test.js";
+
 app.post("/api/chat", async (req, res) => {
+  console.log(req.ip);
+  
   try {
-    const { message, userId } = req.body;
+    const { message, language } = req.body;
+    console.log('====================================');
+    console.log(req.body);
+    console.log('====================================');
     if (!message) {
       return res.status(400).json({ error: "Message is required" });
     }
 
     console.log("Chat message received:", message);
-    console.log("User ID:", userId);
 
-    const response = await chatBOT(message);
-    console.log("ChatBOT response:", response);
+
+    const response = await chatBOT(message, language || "English");
+    // const response = await chatWithNvidia(message, false);
+    console.table( response);
     // TODO: Implement chatBOT logic here
     return res.json({
       message: message,
       received: message,
-      userId: userId || null,
       botResponse: response,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Chat error:", error);
     res.status(500).json({ error: "Chat failed" });
   }
 });
+
+
+app.post("/api/signup", register);
+app.post("/api/verify-otp", verifyOTP);
+app.post("/api/login", login);
 
 // ==========================
 // START SERVER
