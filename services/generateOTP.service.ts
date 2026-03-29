@@ -3,7 +3,7 @@
  * @param length number of digits in the OTP (default is 6)
  * @returns generated OTP as a string
  */
-export const generateOTP = (length: number = 4): string => {
+export const generateOTP = (length: number = 6): string => {
   const digits = "0123456789";
   let otp = "";
 
