@@ -15,7 +15,7 @@ import { login, register , verifyOTP} from "./controllers/auth.controller.js";
 // INIT
 // ==========================
 
-import cors from "cors";
+
 
 const allowedOrigins = [
   "http://localhost:5173",
